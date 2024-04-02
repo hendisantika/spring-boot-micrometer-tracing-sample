@@ -11,3 +11,7 @@ public class ServerApplication {
 	}
 
 }
+
+
+record Customer(int id, String name) {
+}
