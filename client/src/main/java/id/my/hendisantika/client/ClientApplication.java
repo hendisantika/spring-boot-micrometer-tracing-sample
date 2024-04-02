@@ -13,11 +13,13 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 
 @SpringBootApplication
 public class ClientApplication {
 
 	public static void main(String[] args) {
+		Hooks.enableAutomaticContextPropagation();
 		SpringApplication.run(ClientApplication.class, args);
 	}
 
