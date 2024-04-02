@@ -26,3 +26,6 @@ public class ClientApplication {
 				.createClient(CustomerHttpClient.class);
 	}
 }
+
+record Customer(int id, String name) {
+}
