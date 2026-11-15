@@ -25,12 +25,11 @@ public class ClientApplication {
 
 	@Bean
 	CustomerHttpClient customerHttpClient(WebClient.Builder builder) {
+		WebClient webClient = builder
+				.baseUrl("http://localhost:9090")
+				.build();
 		return HttpServiceProxyFactory
-				.builder()
-				.clientAdapter(WebClientAdapter.forClient(builder
-						.baseUrl("http://localhost:9090")
-						.build()
-				))
+				.builderFor(WebClientAdapter.create(webClient))
 				.build()
 				.createClient(CustomerHttpClient.class);
 	}
