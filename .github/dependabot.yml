@@ -1,20 +1,67 @@
 version: 2
 updates:
+  # Maven dependencies for both modules (server & client) in one PR per group
   - package-ecosystem: maven
-    directory: "/server"
+    directories:
+      - "/server"
+      - "/client"
     schedule:
-      interval: daily
-      time: '05:00'
+      interval: weekly
+      day: monday
+      time: "05:00"
       timezone: Asia/Jakarta
     open-pull-requests-limit: 10
-  - package-ecosystem: maven
-    directory: "/client"
-    schedule:
-      interval: daily
-      time: '05:00'
-      timezone: Asia/Jakarta
-    open-pull-requests-limit: 10
-  - package-ecosystem: "github-actions"
+    assignees:
+      - hendisantika
+    labels:
+      - dependencies
+      - java
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+      include: scope
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
+      micrometer-tracing:
+        patterns:
+          - "io.micrometer:*"
+          - "io.zipkin.*:*"
+      maven-plugins:
+        patterns:
+          - "org.apache.maven.plugins:*"
+          - "org.apache.maven:*"
+      other-dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "org.springframework.boot:*"
+          - "io.micrometer:*"
+          - "io.zipkin.*:*"
+          - "org.apache.maven.plugins:*"
+          - "org.apache.maven:*"
+        update-types:
+          - minor
+          - patch
+
+  # GitHub Actions used in .github/workflows
+  - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: weekly
+      day: monday
+      time: "05:00"
+      timezone: Asia/Jakarta
+    open-pull-requests-limit: 5
+    assignees:
+      - hendisantika
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
